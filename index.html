@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="I'm Iryna Bodak, a beginner developer. And this is my final course project in Projector." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Workbench&display=swap" rel="stylesheet">
+    <title>Time Tracker & Holiday Helper</title>
+    <link rel="shortcut icon" href="icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Time Tracker & Holiday Helper</h1>
+        <div class="tabs">
+            <button class="time-difference">Time Difference</button>
+            <button class="public-holidays">Public Holidays</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="time-tracker-tab visible">
+            <div class="input-data">
+                <form id="dateSelectionForm">
+                    <div class="select-dates">
+                        <div class="select-dates__item">
+                            <label for="startDate">Start date:</label>
+                            <div class="start-date">
+                                <input type="date" id="startDate" name="startDate" required>
+                            </div>
+                        </div>
+                        <div class="select-dates__item">
+                            <label for="endDate">End date:</label>
+                            <div class="end-date">
+                                <input type="date" id="endDate" name="endDate" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="select-date-preset">
+                        <div class="select-date-preset__buttons">
+                            <button type="button" id="weekPresetButton">Week</button>
+                            <button type="button" id="monthPresetButton">Month</button>
+                        </div>    
+                    </div>
+                    <div class="select-days-option">
+                        <label for="daysOption">Please, select days option</label>
+                        <select name="daysOption" id="daysOption">
+                            <option value="all">All days</option>
+                            <option value="weekdays">Weekdays</option>
+                            <option value="weekends">Weekends</option>
+                        </select>
+                    </div>
+                    <div class="select-units-option">
+                        <label for="unitOption">Please, select required unit</label>
+                        <select name="unitOption" id="unitOption">
+                            <option value="days">Days</option>
+                            <option value="hours">Hours</option>
+                            <option value="minutes">Minutes</option>
+                            <option value="seconds">Seconds</option>
+                        </select>                        
+                    </div>
+                    <input type="submit" value="GET A RESULT" id="submit-button">
+                </form>
+                <div class="date-current-result">
+                    Result: <span id="currentResult"></span>
+                </div>               
+            </div>
+            <div class="history-data">
+                <h3>Previous results</h3>
+                <table class="history-data__table disabled">
+                    <thead>
+                        <tr>
+                            <th>Start date</th>
+                            <th>End date</th>
+                            <th>Result</th>
+                        </tr>                        
+                    </thead>
+                    <tbody id="historyDataTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="holiday-helper-tab">
+            <div class="holiday-data">
+                <label for="countriesList">Select country</label>
+                <div class="countries-list">
+                    <select name="countriesList" id="countriesList">
+                        <option value="" selected disabled>---Choose the country---</option>
+                    </select>
+                </div>
+                <label for="yearsList">Choose year</label>
+                <div class="year-list">
+                    <select name="yearsList" id="yearsList"></select>
+                </div>
+            </div>
+            <div class="holiday-history">
+                <table class="holiday-history_table disabled">
+                    <thead>
+                        <tr>
+                            <th class="holiday-history_date-sort">Date<span class="sort-up-icon">&uarr;</span><span class="sort-down-icon">&darr;</span></th>
+                            <th>Holiday</th>
+                        </tr>  
+                    </thead>
+                    <tbody class="holiday-history_table-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <a href="https://github.com/iren-bod" target="_blank">Time Tracker & Holiday Helper App</a>
+    </footer>
+
+    <script src="./js/index.js" type="module"></script>
+</body>
+
+</html>
