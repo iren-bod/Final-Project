@@ -1,16 +1,3 @@
-import { results, addRecordToStorage } from "./storage.js";
-import { renderTable } from "./timeTableRenderer.js";
-
-// DOM Variables
-const dateSelectionForm = document.getElementById("dateSelectionForm");
-const startDateInput = document.getElementById("startDate");
-const endDateInput = document.getElementById("endDate");
-const weekPresetButton = document.getElementById("weekPresetButton");
-const monthPresetButton = document.getElementById("monthPresetButton");
-const daysOptionInput = document.getElementById("daysOption");
-const unitOptionInput = document.getElementById("unitOption");
-const currentResult = document.getElementById("currentResult");
-
 // Constants for time durations
 const DAY = 1;
 const HOURS_IN_DAY = 24;
@@ -19,7 +6,7 @@ const SECONDS_IN_DAY = 86400;
 const MILLISECONDS_IN_DAY = 86400000;
 
 // Function to calculate duration between times
-const getDurationBetweenTimes = (startDate, endDate, quantity, daysOption) => {
+export const getDurationBetweenTimes = (startDate, endDate, quantity, daysOption) => {
     const startDateTime = new Date(startDate);
     const endDateTime = new Date(endDate);
 
@@ -86,57 +73,7 @@ const isWorkingDay = currentDay => currentDay.getDay() !== 6 && currentDay.getDa
 const addDay = currentDay => currentDay.setDate(currentDay.getDate() + 1);
 
 // Function to add one week to a date
-const addWeek = dateValue => dateValue.setDate(dateValue.getDate() + 7);
+export const addWeek = dateValue => dateValue.setDate(dateValue.getDate() + 7);
 
 // Function to add one month to a date
-const addMonth = dateValue => dateValue.setMonth(dateValue.getMonth() + 1);
-
-// Function to initialize the calculating tab
-export const initCalculatingTab = () => {
-    const enableEndDateInput = () => {
-        endDateInput.disabled = startDateInput.value === "";
-        endDateInput.min = startDateInput.value;
-    };
-
-    const chooseDatePeriod = (event) => {
-        const dateValue = new Date(startDateInput.value);
-        if (event.target === weekPresetButton) {
-            addWeek(dateValue);
-        }
-        if (event.target === monthPresetButton) {
-            addMonth(dateValue);
-        }
-        endDateInput.valueAsDate = dateValue;
-    };
-
-    const calculateTime = (event) => {
-        event.preventDefault();
-        const startDateValue = startDateInput.value;
-        const endDateValue = endDateInput.value;
-        const unitOptionValue = unitOptionInput.value;
-        const daysOptionValue = daysOptionInput.value;
-
-        const result = getDurationBetweenTimes(startDateValue, endDateValue, unitOptionValue, daysOptionValue);
-        currentResult.innerText = result;
-
-        const record = { startDate: startDateValue, endDate: endDateValue, result };
-        addRecordToStorage(record);
-        renderTable();
-    };
-
-    // Event listeners
-    weekPresetButton.addEventListener("click", chooseDatePeriod);
-    monthPresetButton.addEventListener("click", chooseDatePeriod);
-    startDateInput.addEventListener("change", enableEndDateInput);
-    endDateInput.addEventListener("change", () => {
-        const endDate = new Date(endDateInput.value);
-        startDateInput.max = endDate.toISOString().split('T')[0];
-    });
-    dateSelectionForm.addEventListener("submit", calculateTime);
-
-    // Initialize form
-    enableEndDateInput();
-    if (results.length !== 0) {
-        renderTable();
-    }
-}
+export const addMonth = dateValue => dateValue.setMonth(dateValue.getMonth() + 1);
