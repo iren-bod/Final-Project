@@ -1,4 +1,5 @@
-import { results, addRecordToStorage, renderTable } from "./storage.js";
+import { results, addRecordToStorage } from "./storage.js";
+import { renderTable } from "./timeTableRenderer.js";
 
 // DOM Variables
 const dateSelectionForm = document.getElementById("dateSelectionForm");
@@ -23,31 +24,39 @@ const getDurationBetweenTimes = (startDate, endDate, quantity, daysOption) => {
     const endDateTime = new Date(endDate);
 
     let periodDuration;
-    if (quantity === "days") {
-        periodDuration = DAY;
-    } else if (quantity === "hours") {
-        periodDuration = HOURS_IN_DAY;
-    } else if (quantity === "minutes") {
-        periodDuration = MINUTES_IN_DAY;
-    } else if (quantity === "seconds") {
-        periodDuration = SECONDS_IN_DAY;
-    } else {
-        return "Please select sth from the drop down list.";
+    switch (quantity) {
+        case "days":
+            periodDuration = DAY;
+            break;
+        case "hours":
+            periodDuration = HOURS_IN_DAY;
+            break;
+        case "minutes":
+            periodDuration = MINUTES_IN_DAY;
+            break;
+        case "seconds":
+            periodDuration = SECONDS_IN_DAY;
+            break;
+        default:
+            return "Please select quantity from the drop down list.";
     }
 
     let differenceInDays = 0;
-    if (daysOption === "all") {
-        differenceInDays = getAllDays(startDateTime, endDateTime);
-    } else if (daysOption === "weekdays") {
-        differenceInDays = getWorkingDays(startDateTime, endDateTime);
-    } else if (daysOption === "weekends") {
-        differenceInDays = getWeekendDays(startDateTime, endDateTime);
-    } else {
-        return "Please select day option from the drop down list.";
+    switch (daysOption) {
+        case "all":
+            differenceInDays = getAllDays(startDateTime, endDateTime);
+            break;
+        case "weekdays":
+            differenceInDays = getWorkingDays(startDateTime, endDateTime);
+            break;
+        case "weekends":
+            differenceInDays = getWeekendDays(startDateTime, endDateTime);  
+            break;
+        default:
+            return "Please select day option from the drop down list.";
     }
-
-    const period = differenceInDays * periodDuration;
     
+    const period = differenceInDays * periodDuration;
     const unit = period === 1 ? "day" : quantity;
 
     return `${period} ${unit}`;
@@ -59,7 +68,7 @@ const getAllDays = (startDate, endDate) => (endDate - startDate) / MILLISECONDS_
 // Function to get working days between two dates
 const getWorkingDays = (startDate, endDate) => {
     let differenceInDays = 0;
-    for (let currentDay = new Date(startDate); currentDay < endDate; day(currentDay)) {
+    for (let currentDay = new Date(startDate); currentDay < endDate; addDay(currentDay)) {
         if (isWorkingDay(currentDay)) {
             differenceInDays++;
         }
@@ -74,13 +83,13 @@ const getWeekendDays = (startDate, endDate) => getAllDays(startDate, endDate) - 
 const isWorkingDay = currentDay => currentDay.getDay() !== 6 && currentDay.getDay() !== 0;
 
 // Function to add one day to a date
-const day = currentDay => currentDay.setDate(currentDay.getDate() + 1);
+const addDay = currentDay => currentDay.setDate(currentDay.getDate() + 1);
 
 // Function to add one week to a date
-const week = dateValue => dateValue.setDate(dateValue.getDate() + 7);
+const addWeek = dateValue => dateValue.setDate(dateValue.getDate() + 7);
 
 // Function to add one month to a date
-const month = dateValue => dateValue.setMonth(dateValue.getMonth() + 1);
+const addMonth = dateValue => dateValue.setMonth(dateValue.getMonth() + 1);
 
 // Function to initialize the calculating tab
 export const initCalculatingTab = () => {
@@ -92,10 +101,10 @@ export const initCalculatingTab = () => {
     const chooseDatePeriod = (event) => {
         const dateValue = new Date(startDateInput.value);
         if (event.target === weekPresetButton) {
-            week(dateValue);
+            addWeek(dateValue);
         }
         if (event.target === monthPresetButton) {
-            month(dateValue);
+            addMonth(dateValue);
         }
         endDateInput.valueAsDate = dateValue;
     };

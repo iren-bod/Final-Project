@@ -1,3 +1,5 @@
+import { fetchCountries, fetchHolidays } from "./api.js";
+
 // DOM Variables
 const listOfCountries = document.getElementById("countriesList");
 const listOfYears = document.getElementById("yearsList");
@@ -6,7 +8,6 @@ const historyTableBody = document.querySelector(".holiday-history_table-body");
 const sortDate = document.querySelector(".holiday-history_date-sort");
 
 // Constants
-const API_KEY = "aqscGKSMQ1pSdjH4MdSxWRiLaxpvCG42";
 const INITIAL_START_YEAR = 2001;
 const INITIAL_END_YEAR = 2050;
 
@@ -15,12 +16,6 @@ let isHolidayTabPrepared = false;
 let isSortingDown = false;
 
 // Functions
-async function fetchCountries() {
-    const response = await fetch(`https://calendarific.com/api/v2/countries?api_key=${API_KEY}`);
-    const data = await response.json();
-    return data.response.countries;
-}
-
 async function createListOfCountries() {
     try {
         const data = await fetchCountries();  
@@ -45,15 +40,7 @@ function createListOfYear() {
             yearsList.append(yearOption);
         }
         yearsList.value = currentYear;
-}
-
-async function fetchHolidays(country, year) {
-    const response = await fetch(
-        `https://calendarific.com/api/v2/holidays?api_key=${API_KEY}&country=${country}&year=${year}`
-    );
-    const data = await response.json()
-    return data.response.holidays;
-}     
+}   
 
 const alert = function (message, timeout = 3000) {
     const alertMessage = document.createElement("div");
@@ -131,15 +118,16 @@ export function initHolidayTab() {
     createListOfCountries();
     renderHolidaysTable();
     toggleSorting();
+}
 
-    listOfCountries.addEventListener("change", function() {
-        renderHolidaysTable();
-        enableYearList();
-    });
-    listOfYears.addEventListener("change", renderHolidaysTable);
-    if (sortDate) {
-        sortDate.addEventListener("click", toggleSorting);
-    } else {
-        console.log("Date sort element not found!");
-    }
+// Event Listeners
+listOfCountries.addEventListener("change", function() {
+    renderHolidaysTable();
+    enableYearList();
+});
+listOfYears.addEventListener("change", renderHolidaysTable);
+if (sortDate) {
+    sortDate.addEventListener("click", toggleSorting);
+} else {
+    console.log("Date sort element not found!");
 }

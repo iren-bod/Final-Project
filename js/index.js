@@ -1,5 +1,4 @@
 import { initCalculatingTab } from "./date.js";
-import { switchTabs } from "./switchTabs.js";
 import { initHolidayTab } from "./countries.js";
 
 const restoreActiveTab = () => {
@@ -12,9 +11,9 @@ const restoreActiveTab = () => {
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    switchTabs();
-    initCalculatingTab();
-    restoreActiveTab(); 
-    initHolidayTab();
-});
+initCalculatingTab();
+initHolidayTab();
+
+window.addEventListener('DOMContentLoaded', () => {
+    restoreActiveTab();
+})
