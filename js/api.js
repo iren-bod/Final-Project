@@ -1,5 +1,5 @@
 // Constant
-const API_KEY = "aqscGKSMQ1pSdjH4MdSxWRiLaxpvCG42";
+const API_KEY = "AIOVS5D1249jLI0dTSzWcSWbSfuBXw6u";
 const API_URL = "https://calendarific.com/api/v2";
 
 export async function fetchCountries() {
