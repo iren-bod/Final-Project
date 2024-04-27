@@ -1,3 +1,4 @@
+import { showAlert, hideAlert } from "./alert.js";
 import { fetchCountries, fetchHolidays } from "./api.js";
 
 // DOM Variables
@@ -27,7 +28,7 @@ async function createListOfCountries() {
         });
         listOfYears.disabled = true;
     } catch(error) {
-        alert("Error! Something wrong with the request");
+        showAlert("Error! Something wrong with the request");
     }
 }
 
@@ -41,19 +42,6 @@ function createListOfYear() {
         }
         yearsList.value = currentYear;
 }   
-
-const alert = function (message, timeout = 3000) {
-    const alertMessage = document.createElement("div");
-    alertMessage.classList.add("alert");
-    alertMessage.textContent = message;
-    document.body.append(alertMessage);
-
-    setTimeout(hideAlert, timeout);
-}
-const hideAlert = function() {
-    const div = document.querySelector(".alert");
-    div.remove();
-}
 
 function sortHolidays(property, direction) {
     return (a, b) => direction ? (a[property] > b[property] ? 1 : -1) : (a[property] < b[property] ? 1 : -1);
@@ -92,7 +80,7 @@ async function renderHolidaysTable() {
         holidaysHistoryTable.classList.remove("disabled"); 
     } catch(error) {
         holidaysHistoryTable.classList.add("disabled");
-        alert("Error! Something wrong with the request");
+        showAlert("Error! Something wrong with the request");
     };
 }
 
